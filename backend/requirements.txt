@@ -1,0 +1,21 @@
+# Versions exactes de l'application Dari (installations reproductibles, en local, en CI et dans l'image).
+# Le kit d'authentification (src/auth_kit) déclare des bornes larges dans pyproject.toml.
+fastapi==0.162.0
+starlette==1.10.0
+uvicorn[standard]==0.54.0
+sqlalchemy==2.0.46
+psycopg[binary]==3.3.6
+pyjwt==2.15.1
+bcrypt==5.0.0
+python-dotenv==1.2.4
+python-multipart==0.0.33
+pydantic==2.14.2
+pydantic-settings==2.16.2
+email-validator==2.3.0
+alembic==1.20.1
+resend==2.50.1
+limits==5.8.0
+reportlab==5.1.0          # PV et relevés de notes en PDF
+prometheus-client==0.26.0 # GET /metrics
+# Le kit d'authentification, en mode éditable (commande auth-kit, import auth_kit)
+-e .

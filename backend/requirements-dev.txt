@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest==9.2.0
+httpx2==2.16.0   # requis par starlette.testclient depuis Starlette 1.x
+ruff==0.17.5     # lint (ruff check .)
