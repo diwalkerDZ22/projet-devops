@@ -1,0 +1,28 @@
+{
+  "name": "dari-frontend",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w dari-web",
+    "build": "npm run typecheck -w @auth-kit/react && npm run build -w dari-web",
+    "lint": "oxlint",
+    "test": "npm run test -w @auth-kit/react && npm run test -w dari-web",
+    "gen:api": "npm run gen:api -w dari-web",
+    "gen:api:kit": "npm run gen:api -w @auth-kit/react"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "happy-dom": "21.0.4",
+    "oxlint": "^1.90.0",
+    "typescript": "~7.0.2",
+    "vitest": "5.1.0"
+  }
+}
