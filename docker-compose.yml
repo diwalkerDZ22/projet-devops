@@ -1,0 +1,27 @@
+# PostgreSQL local pour le développement :
+#
+#   cp .env.example .env          # puis remplir POSTGRES_PASSWORD
+#   docker compose up -d db       # localhost:5432
+
+name: dari
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dari}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD manquant dans .env}
+      POSTGRES_DB: ${POSTGRES_DB:-dari}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Migrations versionnées (kit + Dari), appliquées avant chaque démarrage du backend
+
+volumes:
+  db-data:
