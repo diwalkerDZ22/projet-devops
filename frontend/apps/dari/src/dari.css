@@ -1,0 +1,175 @@
+/* Dari : mise en page des pages métier. Couleurs, rayons et ombres viennent des variables --ak-* du kit,
+   qui gèrent déjà les thèmes clair et sombre : aucune couleur en dur ici. */
+
+:root {
+  --ak-primary: #0f5c8c;
+  --ak-primary-hover: #0b4a72;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ak-primary: #4fa3d9;
+    --ak-primary-hover: #74b8e4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ak-primary: #4fa3d9;
+  --ak-primary-hover: #74b8e4;
+}
+
+body {
+  margin: 0;
+  background: var(--ak-bg);
+  color: var(--ak-text);
+  font-family: var(--ak-font);
+}
+
+.dari-shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+.dari-skip { position: absolute; left: -9999px; }
+.dari-skip:focus { left: 16px; top: 12px; z-index: 10; padding: 8px 12px; background: var(--ak-surface); border-radius: var(--ak-radius-sm); }
+
+/* --- En-tête ------------------------------------------------------------------------------ */
+
+.dari-header {
+  position: sticky; top: 0; z-index: 5;
+  background: color-mix(in srgb, var(--ak-surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ak-border);
+}
+.dari-nav { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.dari-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--ak-text); text-decoration: none; }
+.dari-logo-mark {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px;
+  background: var(--ak-primary); color: var(--ak-primary-contrast); font-weight: 800;
+}
+.dari-nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+.dari-nav-link {
+  padding: 7px 12px; border-radius: var(--ak-radius-sm); color: var(--ak-text-muted);
+  text-decoration: none; font-size: 14px; font-weight: 500;
+}
+.dari-nav-link:hover { background: var(--ak-surface-2); color: var(--ak-text); }
+.dari-nav-link.is-active { background: var(--ak-primary-soft); color: var(--ak-primary-soft-text); }
+.dari-nav-end { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.dari-account { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ak-text); font-size: 14px; }
+
+.dari-main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; box-sizing: border-box; }
+.dari-footer { text-align: center; padding: 20px 16px; color: var(--ak-text-subtle); font-size: 13px; border-top: 1px solid var(--ak-border); }
+
+/* --- Pages -------------------------------------------------------------------------------- */
+
+.dari-page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.dari-page-title { margin: 0; font-size: 26px; letter-spacing: -0.02em; }
+.dari-page-subtitle { margin: 6px 0 0; color: var(--ak-text-muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+.dari-card {
+  background: var(--ak-surface); border: 1px solid var(--ak-border); border-radius: var(--ak-radius-lg);
+  padding: 20px; margin-bottom: 18px; box-shadow: var(--ak-shadow-sm); min-width: 0;
+}
+.dari-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.dari-card-title { margin: 0; font-size: 17px; }
+
+.dari-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.dari-actions--end { justify-content: flex-end; }
+
+.dari-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+.dari-grid > .dari-card { margin-bottom: 0; }
+.dari-grid + .dari-card, .dari-grid { margin-bottom: 18px; }
+
+.dari-muted { color: var(--ak-text-muted); font-size: 14px; }
+.dari-empty { color: var(--ak-text-muted); text-align: center; padding: 24px 8px; margin: 0; }
+.dari-loading { display: flex; gap: 10px; align-items: center; color: var(--ak-text-muted); padding: 24px 0; }
+.dari-error-inline { color: var(--ak-danger-text); font-size: 13px; }
+.dari-ko { color: var(--ak-danger-text); }
+.dari-hint { color: var(--ak-text-subtle); font-size: 14px; }
+
+/* --- Accueil -------------------------------------------------------------------------------- */
+
+.dari-hero { max-width: 720px; margin: 48px auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.dari-eyebrow { color: var(--ak-primary); font-weight: 600; font-size: 14px; }
+.dari-hero-title { margin: 0; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.03em; }
+.dari-hero-text { margin: 0; color: var(--ak-text-muted); font-size: 17px; line-height: 1.6; }
+
+.dari-kpi-row { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.dari-big { display: block; font-size: 28px; letter-spacing: -0.02em; }
+
+.dari-list { list-style: none; margin: 0; padding: 0; }
+.dari-list-link {
+  display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 8px;
+  border-radius: var(--ak-radius-sm); color: var(--ak-text); text-decoration: none;
+}
+.dari-list-link:hover { background: var(--ak-surface-2); }
+
+/* --- Onglets ------------------------------------------------------------------------------ */
+
+.dari-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--ak-border); margin-bottom: 18px; overflow-x: auto; }
+.dari-tab {
+  border: 0; background: none; cursor: pointer; padding: 10px 14px; font: inherit; font-size: 14px; font-weight: 500;
+  color: var(--ak-text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap;
+}
+.dari-tab:hover { color: var(--ak-text); }
+.dari-tab.is-active { color: var(--ak-primary); border-bottom-color: var(--ak-primary); }
+.dari-tab:focus-visible { outline: 2px solid var(--ak-ring); outline-offset: 2px; }
+
+/* --- Tableaux ------------------------------------------------------------------------------- */
+
+.dari-table-wrap { overflow-x: auto; margin: 0 -4px; }
+.dari-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.dari-table th {
+  text-align: left; font-weight: 600; color: var(--ak-text-muted); font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.04em; padding: 8px 10px; border-bottom: 1px solid var(--ak-border); white-space: nowrap;
+}
+.dari-table td { padding: 10px; border-bottom: 1px solid var(--ak-border); vertical-align: middle; }
+.dari-table tbody tr:hover { background: var(--ak-surface-2); }
+.dari-table .is-right { text-align: right; }
+.dari-table .is-center { text-align: center; }
+.dari-table code { font-family: var(--ak-font-mono); font-size: 13px; }
+.dari-table--saisie tr.is-modified { background: var(--ak-warning-soft); }
+.dari-note { width: 84px; text-align: right; padding: 6px 8px; }
+.dari-note.is-invalid { border-color: var(--ak-danger); }
+
+.dari-progress { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ak-text-muted); }
+.dari-progress-bar { width: 110px; height: 6px; background: var(--ak-surface-3); border-radius: 99px; overflow: hidden; }
+.dari-progress-bar > span { display: block; height: 100%; background: var(--ak-primary); }
+
+/* --- Formulaires ---------------------------------------------------------------------------- */
+
+.dari-form { display: flex; flex-direction: column; gap: 14px; padding: 16px; margin-bottom: 18px; background: var(--ak-surface-2); border-radius: var(--ak-radius); }
+.dari-form--inline { flex-direction: row; flex-wrap: wrap; align-items: flex-end; background: none; padding: 0; }
+.dari-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.dari-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dari-textarea { min-height: 90px; resize: vertical; font: inherit; }
+.dari-checks { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.dari-checks legend { margin-bottom: 6px; }
+.dari-check { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; }
+
+/* --- Statistiques ----------------------------------------------------------------------------- */
+
+.dari-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 18px; }
+.dari-stat { background: var(--ak-surface); border: 1px solid var(--ak-border); border-radius: var(--ak-radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.dari-stat-label { font-size: 13px; color: var(--ak-text-muted); }
+.dari-stat-value { font-size: 26px; letter-spacing: -0.02em; }
+.dari-stat-detail { font-size: 13px; color: var(--ak-text-subtle); }
+
+.dari-bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.dari-bar-row { display: grid; grid-template-columns: 64px 1fr 56px; gap: 10px; align-items: center; font-size: 13px; }
+.dari-bar-label { color: var(--ak-text-muted); font-variant-numeric: tabular-nums; }
+.dari-bar-track { height: 14px; background: var(--ak-surface-3); border-radius: 4px; overflow: hidden; }
+.dari-bar-fill { display: block; height: 100%; background: var(--ak-primary); border-radius: 4px; transition: width 0.3s ease; }
+.dari-bar-value { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* --- Réclamations ----------------------------------------------------------------------------- */
+
+.dari-quote { margin: 10px 0; padding: 10px 14px; border-left: 3px solid var(--ak-border-strong); color: var(--ak-text); background: var(--ak-surface-2); border-radius: 0 var(--ak-radius-sm) var(--ak-radius-sm) 0; }
+.dari-timeline { margin: 12px 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+
+@media (max-width: 640px) {
+  .dari-page-title { font-size: 22px; }
+  .dari-account-name { display: none; }
+  .dari-nav-end { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dari-bar-fill { transition: none; }
+}
