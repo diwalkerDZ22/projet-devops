@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import sessionmaker
 
 from app import roles
-from app.api import referentiels, sessions, stats
+from app.api import notes, referentiels, resultats, sessions, stats
 from app.api.deps import AppContext
 from app.config import AppSettings
 from app.errors import ERREURS
@@ -78,7 +78,7 @@ def create_app(
     kit.install(app, error_scope="app")   # format {"code", "message"} sur toute l'API
 
     ctx = AppContext(kit=kit, get_db=get_db, settings=settings)
-    for module in (stats, referentiels, sessions):
+    for module in (stats, referentiels, sessions, notes, resultats):
         app.include_router(module.build_router(ctx))
 
     app.state.ctx = ctx
