@@ -1,9 +1,28 @@
-# PostgreSQL local pour le développement :
+# Base, migrations et API Dari :
 #
-#   cp .env.example .env          # puis remplir POSTGRES_PASSWORD
-#   docker compose up -d db       # localhost:5432
+#   cp .env.example .env          # puis remplir les secrets
+#   docker compose up -d --build  # API sur http://localhost:8000/docs
 
 name: dari
+
+x-backend-env: &backend-env
+  ENVIRONMENT: ${ENVIRONMENT:-dev}
+  # Par défaut le PostgreSQL du service db ; DATABASE_URL dans .env pour une base externe (Supabase)
+  DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-dari}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD manquant dans .env}@db:5432/${POSTGRES_DB:-dari}}
+  DATABASE_SSLMODE: ${DATABASE_SSLMODE:-disable}
+  APP_VERSION: ${APP_VERSION:-dev}
+  LOG_FORMAT: json
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+  EMAIL_BACKEND: ${EMAIL_BACKEND:-console}
+  RESEND_API_KEY: ${RESEND_API_KEY:-}
+  MAIL_FROM: ${MAIL_FROM:-onboarding@resend.dev}
+  CORS_ORIGINS: '["${PUBLIC_URL:-http://localhost:8080}"]'
+  AUTH_SECRET_KEY: ${AUTH_SECRET_KEY:?AUTH_SECRET_KEY manquant dans .env}
+  AUTH_APP_NAME: Dari
+  AUTH_LOGIN_EMAIL_REQUIRED: ${AUTH_LOGIN_EMAIL_REQUIRED:-false}
+  AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-false}
+  AUTH_FRONTEND_VERIFY_URL: ${PUBLIC_URL:-http://localhost:8080}/verify-email
+  AUTH_FRONTEND_RESET_URL: ${PUBLIC_URL:-http://localhost:8080}/reset-password
 
 services:
   db:
@@ -22,6 +41,35 @@ services:
       retries: 20
 
   # Migrations versionnées (kit + Dari), appliquées avant chaque démarrage du backend
+  migrate:
+    image: ${BACKEND_IMAGE:-dari-backend:local}
+    build:
+      context: ./backend
+      args:
+        APP_VERSION: ${APP_VERSION:-dev}
+    environment: *backend-env
+    command: ["alembic", "upgrade", "heads"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  backend:
+    image: ${BACKEND_IMAGE:-dari-backend:local}
+    build:
+      context: ./backend
+      args:
+        APP_VERSION: ${APP_VERSION:-dev}
+    restart: unless-stopped
+    environment: *backend-env
+    volumes:
+      - uploads:/data
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
 
 volumes:
   db-data:
+  uploads:
