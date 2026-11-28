@@ -1,9 +1,13 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 
-import { createAuthRoutes } from '@auth-kit/react/ui'
+import { createAuthRoutes, FullPageSpinner } from '@auth-kit/react/ui'
 
 import { Layout } from './Layout'
 import { AccueilPage } from './pages/AccueilPage'
+
+// Pages chargées à la demande : le bundle initial reste léger
+const IntrouvablePage = lazy(() => import('./pages/IntrouvablePage'))
 
 const router = createBrowserRouter([
   {
@@ -11,6 +15,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <AccueilPage /> },
       ...createAuthRoutes(),
+      { path: '*', element: <Suspense fallback={<FullPageSpinner />}><IntrouvablePage /></Suspense> },
     ],
   },
 ])
